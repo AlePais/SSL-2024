@@ -1,0 +1,10 @@
+Compilacion: 
+    -bison -yd analisisSintactico.y
+    -flex analisisLexico.l 
+    -gcc y.tab.c lex.yy.c -o salida
+
+
+Ejecucion: 
+    - ./salida prueba.txt 
+
+El archivo prueba.txt tiene un ejemplo de lenguaje micro.
