@@ -16,7 +16,6 @@ Letra          [a-zA-Z]
 Digito         [0-9]
 letraODigito   ({Letra}|{Digito})
 constante      {Digito}+
-operadorAditivo [+-]
 asignacion     (:=)
 
 %%
@@ -24,9 +23,10 @@ asignacion     (:=)
 {FIN} {return(FIN);}
 {LEER} {return(LEER);}
 {ESCRIBIR} {return(ESCRIBIR);}
-{identificador}       {return(identificador);}
-{constante}           { return(constante);}
-{operadorAditivo}     { return(operadorAditivo); }
+{identificador}       {yylval.id = strdup(yytext);return(identificador);}
+{constante}           {yylval.const = strdup(yytext); return(constante);}
+"+" {return (suma);}
+"-" {return (resta);}
 {asignacion}          { return(asignacion); }
 "("       {return (APAR);}
 ")"        {return (CPAR);}

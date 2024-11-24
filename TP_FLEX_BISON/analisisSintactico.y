@@ -1,13 +1,26 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include "tablaDeSimbolos.h"
+
+
 int yylex();
 void yyerror(const char *s);
 extern FILE *yyin;
 %}
-%token INICIO FIN LEER ESCRIBIR identificador PUNTOCOMA COMA constante operadorAditivo asignacion APAR CPAR
 
+
+%token INICIO FIN LEER ESCRIBIR PUNTOCOMA COMA suma resta asignacion APAR CPAR
+%token <id> identificador
+%token <const> constante
+
+%union {
+    char* id;
+    int cte;
+}
 %%
+
 programa: INICIO listaDeSentencias FIN;
 
 listaDeSentencias:
@@ -16,22 +29,32 @@ listaDeSentencias:
                 ;
 
 sentencia:
-        LEER APAR expresion CPAR
-        |ESCRIBIR APAR expresion CPAR
-        |identificador asignacion expresion
+        LEER APAR listaID CPAR
+        |ESCRIBIR APAR expresiones CPAR
+        |identificador asignacion expresion {agregarATablaDeSimbolos($1,$3);}
         ;
+
+listaID:
+    identificador 
+    | listaID COMA identificador
+    ;
+
+expresiones:
+    expresion
+    | expresiones COMA expresion
+    ;
 
 expresion:
-        APAR expresion CPAR
-        | expresion operador expresion
-        | identificador
-        | constante
-        ;
+    simbolo {$$ = $1;}
+    | expresion suma simbolo  {$$ = $1 + $3;}
+    | expresion resta simbolo  {$$ = $1 - $3;}
+    ;
 
-operador: 
-        COMA
-        | operadorAditivo
-        ;
+simbolo: 
+    constante  {$$ = $1;}
+    | identificador {$$ = valorId($1);}
+    | APAR expresion CPAR {$$ = $2;}
+    ;
 %%
 void yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
@@ -48,6 +71,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     yyin = archivo;
+    
+    iniciarTabla();
     
     if (yyparse() == 0) {
         printf("Análisis completado con éxito.\n");
