@@ -17,7 +17,7 @@ void iniciarTabla(){
 }
 
 // agregar ID y Valor a Tabla de simbolos
-int agregarATablaDeSimbolos(char *id , int valor)
+void agregarATablaDeSimbolos(char *id , int valor)
 {
     int espacioID = buscarID(id);
 

@@ -24,7 +24,7 @@ asignacion     (:=)
 {LEER} {return(LEER);}
 {ESCRIBIR} {return(ESCRIBIR);}
 {identificador}       {yylval.id = strdup(yytext);return(identificador);}
-{constante}           {yylval.const = strdup(yytext); return(constante);}
+{constante}           {yylval.const = atoi(yytext); return(constante);}
 "+" {return (suma);}
 "-" {return (resta);}
 {asignacion}          { return(asignacion); }
