@@ -4,7 +4,7 @@
 #include <string.h>
 #include "tablaDeSimbolos.h"
 
-
+int valorId(char* id);
 int yylex();
 void yyerror(const char *s);
 extern FILE *yyin;
@@ -13,12 +13,16 @@ extern FILE *yyin;
 
 %token INICIO FIN LEER ESCRIBIR PUNTOCOMA COMA suma resta asignacion APAR CPAR
 %token <id> identificador
-%token <const> constante
+%token <cte> constante
 
 %union {
     char* id;
     int cte;
 }
+
+%type <cte> expresion expresiones simbolo
+%type <id> listaID
+
 %%
 
 programa: INICIO listaDeSentencias FIN;

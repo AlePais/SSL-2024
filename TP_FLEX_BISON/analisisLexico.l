@@ -1,6 +1,7 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "y.tab.h"
 #ifndef yywrap
 static int yywrap(void) { return 1; }
@@ -24,7 +25,8 @@ asignacion     (:=)
 {LEER} {return(LEER);}
 {ESCRIBIR} {return(ESCRIBIR);}
 {identificador}       {yylval.id = strdup(yytext);return(identificador);}
-{constante}           {yylval.const = atoi(yytext); return(constante);}
+{constante} 	      {yylval.cte = atoi(yytext); return(constante);}
+
 "+" {return (suma);}
 "-" {return (resta);}
 {asignacion}          { return(asignacion); }

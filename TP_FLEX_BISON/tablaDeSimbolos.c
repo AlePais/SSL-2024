@@ -19,7 +19,7 @@ void iniciarTabla(){
 // agregar ID y Valor a Tabla de simbolos
 void agregarATablaDeSimbolos(char *id , int valor)
 {
-    int espacioID = buscarID(id);
+    int espacioID = buscarId(id);
 
     if (espacioID != -1 ){
         TablaDeSimbolos[espacioID].valor = valor;
