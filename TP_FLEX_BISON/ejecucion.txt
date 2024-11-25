@@ -1,7 +1,7 @@
 Compilacion: 
-    -bison -yd analisisSintactico.y
-    -flex analisisLexico.l 
-    -gcc y.tab.c lex.yy.c -o salida
+    bison -yd analisisSintactico.y
+    flex analisisLexico.l 
+    gcc y.tab.c lex.yy.c tablaDeSimbolos.c -o salida
 
 
 Ejecucion: 
